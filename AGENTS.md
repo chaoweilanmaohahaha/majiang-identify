@@ -30,3 +30,9 @@
 ## 环境注意事项
 - PowerShell 执行策略禁止运行 `npm.ps1`/`npx.ps1`，须用 `npm.cmd` / `npx.cmd`。
 - 本机无法访问 github.com（`degit` 会失败）；npm 官方源与 gitee.com 可访问。
+
+## Git 工作流（必须遵守）
+- 远程仓库：`origin` → `git@github.com:chaoweilanmaohahaha/majiang-identify.git`；主分支为 `master`。
+- 每个新 feature 必须从 `master` 新建本地分支，命名格式 `feature/{YYYY-MM-DD}-{描述}`，描述由用户指定（例：`feature/2026-09-09-hu-pan`）。
+- 开发完成后推送到远程并创建 Pull Request，等用户 review 通过后由用户合并到 `master`；未获批准不得直接提交到 `master`。
+- 仓库级 git 身份已配置（chaoweilanmao / 1109193348@qq.com），无需重新配置。
