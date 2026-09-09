@@ -36,4 +36,5 @@
 - 远程仓库：`origin` → `git@github.com:chaoweilanmaohahaha/majiang-identify.git`；主分支为 `master`。
 - 每个新 feature 必须从 `master` 新建本地分支，命名格式 `feature/{YYYY-MM-DD}-{描述}`，描述由用户指定（例：`feature/2026-09-09-hu-pan`）。
 - 开发完成后推送到远程并创建 Pull Request，等用户 review 通过后由用户合并到 `master`；未获批准不得直接提交到 `master`。
+- openspec change 归档同样走分支 + PR：新建 `archive/{YYYY-MM-DD}-{描述}` 分支执行归档（同步主 spec、移动 change 到 `openspec/changes/archive/`），提交 PR 由用户合并，不得直接推送 `master`。
 - 仓库级 git 身份已配置（chaoweilanmao / 1109193348@qq.com），无需重新配置。
