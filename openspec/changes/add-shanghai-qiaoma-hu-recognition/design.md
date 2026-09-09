@@ -67,7 +67,9 @@ interface HandInput {
 
 ### 7. 测试：vitest（devDependency，`vitest@^1.6`，兼容 Vite 5）
 - `package.json` 增加 `"test": "vitest run"`。
-- 测试文件与被测模块同目录（`*.test.ts`），覆盖 spec.md 全部场景，另加边界（全刻子拆法、杠、超四张、非法编码、听口去重）。
+- 测试文件统一放在 `src/test/` 下（`src/test/*.test.ts`），与被测模块分离；通过 `@` 别名 import 被测模块。
+- `vitest.config.ts` 独立于 uni-app 的 `vite.config.ts`，配置 `@` 别名（指向 `src/`）与 include 范围 `src/test/**/*.test.ts`。
+- 测试覆盖 spec.md 全部场景，另加边界（全刻子拆法、杠、超四张、非法编码、听口去重）。
 - 备选：jest 需额外配置 ts-jest，与 Vite 生态不协调，不采用。
 
 ## Risks / Trade-offs

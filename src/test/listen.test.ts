@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import type { HandInput } from "./types";
-import { getListeningTiles } from "./listen";
+import type { HandInput } from "@/core/mahjong/types";
+import { getListeningTiles } from "@/core/mahjong/listen";
 
 function hand(
   concealed: number[],

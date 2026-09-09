@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import type { HandInput } from "./types";
-import { HuType, MahjongInputError } from "./types";
-import { getWinTypes, isWinningHand, validateInput } from "./judge";
+import type { HandInput } from "@/core/mahjong/types";
+import { HuType, MahjongInputError } from "@/core/mahjong/types";
+import { getWinTypes, isWinningHand, validateInput } from "@/core/mahjong/judge";
 
 function hand(
   concealed: number[],

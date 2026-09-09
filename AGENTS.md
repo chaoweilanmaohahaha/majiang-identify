@@ -12,6 +12,7 @@
 - 开发（微信小程序，watch 模式）：`npm run dev:mp-weixin`
 - 构建微信小程序：`npm run build:mp-weixin`
 - 类型检查：`npm run type-check`
+- 单元测试：`npm run test`（vitest，测试文件统一放在 `src/test/` 下，通过 `@` 别名 import 被测模块；vitest 使用独立的 `vitest.config.ts`，不使用 uni-app 的 `vite.config.ts`）
 - 其他平台脚本见 `package.json`（`build:h5`、`build:mp-alipay` 等）。
 
 ## 关键目录与文件

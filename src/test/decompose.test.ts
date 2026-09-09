@@ -3,8 +3,8 @@ import {
   canWin,
   canWinSequencesOnly,
   canWinTripletsOnly,
-} from "./decompose";
-import { toCounts } from "./judge";
+} from "@/core/mahjong/decompose";
+import { toCounts } from "@/core/mahjong/judge";
 
 describe("分解算法", () => {
   it("四顺子加将牌可分解", () => {

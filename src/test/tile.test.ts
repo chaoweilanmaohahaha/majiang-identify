@@ -8,7 +8,7 @@ import {
   suitOf,
   TILE_KIND_COUNT,
   tileName,
-} from "./tile";
+} from "@/core/mahjong/tile";
 
 describe("牌编码", () => {
   it("0-41 编码的名称唯一", () => {
