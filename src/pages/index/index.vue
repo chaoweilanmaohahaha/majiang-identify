@@ -157,17 +157,12 @@ function tileColorClass(tile: number): string {
 }
 
 function canToggle(tile: number): boolean {
-  const c = counts.value[tile];
-  return c > 0 || (c < 4 && total.value < 13);
+  return counts.value[tile] < 4 && total.value < 13;
 }
 
 function toggle(tile: number): void {
   if (!canToggle(tile)) return;
-  if (counts.value[tile] > 0) {
-    counts.value[tile]--;
-  } else {
-    counts.value[tile]++;
-  }
+  counts.value[tile]++;
   resetResult();
 }
 
