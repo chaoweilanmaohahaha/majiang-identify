@@ -2,8 +2,8 @@
 
 ## 1. 素材生成
 
-- [ ] 1.1 编写 `scripts/generate-tiles.ps1`（GDI+ 绘制 42 种牌面），执行生成并验证 `src/static/mahjong/` 下产出 42 张 PNG
-- [ ] 1.2 目检抽查素材：数牌数字角标/花色中央字/风牌/花牌配色与白底圆角效果正确
+- [x] 1.1 编写 `scripts/fetch-tiles.ps1`（从公共领域素材源 samoheen/mahjong-tiles 下载并规范化 42 种牌面至 200×280），执行并验证 `src/static/mahjong/` 下产出 42 张 PNG
+- [x] 1.2 程序化抽查素材（尺寸统一、各类牌颜色正确），并请用户目检观感
 
 ## 2. 编码映射
 

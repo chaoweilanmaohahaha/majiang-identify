@@ -18,14 +18,11 @@
 - `wan_1..wan_9`、`tiao_1..tiao_9`、`tong_1..tong_9`、`feng_dong/nan/xi/bei`、`zhong/fa/bai`、`chun/xia/qiu/dong`、`mei/lan/zhu/ju`，共 42 个 `.png`。
 - 理由：语义化命名便于人工核对；编码映射集中在 `tileImage` 一处。
 
-### 2. 生成脚本（`scripts/generate-tiles.ps1`，PowerShell + System.Drawing/GDI+）
-- 运行：`powershell -ExecutionPolicy Bypass -File scripts/generate-tiles.ps1`（本机 PowerShell 策略限制，必须带 Bypass）。
-- 画布 140×188px，透明背景 + 白底圆角牌身（GraphicsPath 圆角路径 + 渐变填充 + 深米色描边）。
-- 数牌：左上角数字 + 右下角旋转 180° 数字（Arial Bold 26px），中央花色大字（Microsoft YaHei Bold 60px）；配色：万 #C0392B、条 #1E8449、筒 #2471A3。
-- 风牌：中央单字（YaHei Bold 72px，#2C3E50）。
-- 红中：红色"中"；发财：绿色"發"；白板：中央蓝色圆角方框（无文字）。
-- 季节花（春夏秋冬）红字；花朵花（梅兰竹菊）蓝字（YaHei Bold 76px）。
-- 理由：无第三方依赖、可重复生成；后续换真实素材时同名替换即可。
+### 2. 素材来源与处理脚本（`scripts/fetch-tiles.ps1`）
+- 素材来源：samoheen/mahjong-tiles 的港式麻将套装（Public Domain，可合法内置），源图为 1200×1680 高清 PNG（含全部 42 种牌：数牌、风牌、三元牌、8 种花牌）。
+- 脚本流程：`curl` 下载 42 张源图（GitHub raw 域名需走代理，`-Proxy` 参数可配置）→ GDI+ HighQualityBicubic 缩放至 200×280（与源图比例一致，无变形）→ 按项目命名存入 `src/static/mahjong/`。
+- 命名映射集中在脚本 `$map`：源文件编号（如 `03-red-dragon.png`）→ 项目命名（`zhong.png`）；wan/tiao/tong 1-9 按编号规则生成映射。
+- 理由：GDI+ 手绘难以达到真实麻将牌质感；公共领域素材合法且高清，脚本保证可重复获取与规范化，后续想换风格仅需替换源 URL。
 
 ### 3. 编码映射（`src/core/mahjong/tile.ts` 新增 `tileImage`）
 - 0-8 → wan_1..9；9-17 → tiao_1..9；18-26 → tong_1..9；27-30 → feng_dong/nan/xi/bei；31-33 → zhong/fa/bai；34-41 → chun/xia/qiu/dong/mei/lan/zhu/ju。
@@ -43,9 +40,9 @@
 
 ## Risks / Trade-offs
 
-- [GDI+ 字体在无中文环境机器不可用] → 本机为中文 Windows（msyh.ttc 存在）；脚本加字体回退（YaHei → SimSun）。
-- [生成素材观感简朴] → 明确为可替换占位风格；后续直接同名替换 PNG 即可。
-- [rpx 缩放下 PNG 边缘锯齿] → 140×188 原始尺寸大于显示尺寸，缩小时质量足够。
+- [GitHub raw 域名本机不可直连] → 脚本内置 `-Proxy` 参数（默认 http://127.0.0.1:6789）。
+- [素材为公共领域简化风格，非摄影级] → 已是接近真实牌面的矢量风格港式套装；如需摄影级素材可另寻授权来源。
+- [rpx 缩放下 PNG 边缘锯齿] → 200×280 原始尺寸大于显示尺寸，缩小时质量足够。
 
 ## Open Questions
 

@@ -5,7 +5,7 @@
 ## ADDED Requirements
 
 ### Requirement: PNG 素材文件
-项目 SHALL 在 `src/static/mahjong/` 目录存放 42 张麻将牌 PNG：31 种可组合牌（万 1-9、条 1-9、筒 1-9、东南西北）与 11 种花牌（红中、发财、白板、春夏秋冬梅兰竹菊）。图片 SHALL 为统一尺寸的竖版牌面、白色底、透明圆角背景，数牌带数字角标与花色中央字，牌种配色为万红、条绿、筒蓝、风黑。
+项目 SHALL 在 `src/static/mahjong/` 目录存放 42 张麻将牌 PNG：31 种可组合牌（万 1-9、条 1-9、筒 1-9、东南西北）与 11 种花牌（红中、发财、白板、春夏秋冬梅兰竹菊）。图片 SHALL 为统一尺寸（200×280）的竖版牌面，风格贴近真实麻将牌（真实港式牌面矢量风格），素材来源为公共领域素材集（samoheen/mahjong-tiles 港式套装），可合法内置到项目。
 
 #### Scenario: 素材完整
 - **WHEN** 检查素材目录
@@ -41,9 +41,9 @@
 - **WHEN** 判定听牌
 - **THEN** 听口以图片形式展示
 
-### Requirement: 素材生成脚本
-项目 SHALL 提供 `scripts/generate-tiles.ps1`，可重新生成全部 42 张 PNG 到 `src/static/mahjong/`。
+### Requirement: 素材获取脚本
+项目 SHALL 提供 `scripts/fetch-tiles.ps1`，可从素材源重新下载并规范化全部 42 张 PNG 到 `src/static/mahjong/`（支持通过 `-Proxy` 参数配置下载代理）。
 
-#### Scenario: 重复生成
-- **WHEN** 执行生成脚本
+#### Scenario: 重复获取
+- **WHEN** 执行获取脚本
 - **THEN** 42 张 PNG 被（重新）生成，路径与命名不变
