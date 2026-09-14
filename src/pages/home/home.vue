@@ -18,7 +18,7 @@
           <text :class="{ placeholder: modeIndex === -1 }">
             {{ modeIndex === -1 ? "请选择" : MODES[modeIndex] }}
           </text>
-          <text class="arrow">▾</text>
+          <text class="arrow">▼</text>
         </view>
       </picker>
     </view>
