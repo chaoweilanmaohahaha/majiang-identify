@@ -11,6 +11,7 @@
           v-for="slot in 13"
           :key="slot"
           class="slot"
+          :class="{ empty: slotTiles[slot - 1] === null }"
           @tap="removeBySlot(slot - 1)"
         >
           <image
@@ -213,9 +214,14 @@ function judge(): void {
   width: 96rpx;
   height: 128rpx;
   margin: 6rpx;
-  border-radius: 8rpx;
-  border: 2rpx dashed rgba(255, 255, 255, 0.25);
+  border-radius: 10rpx;
   box-sizing: border-box;
+  background: #fdfaf3;
+}
+
+.slot.empty {
+  border: 2rpx dashed rgba(255, 255, 255, 0.25);
+  background: transparent;
 }
 
 .tile-img {
@@ -227,6 +233,8 @@ function judge(): void {
   width: 76rpx;
   height: 104rpx;
   margin: 8rpx 6rpx 0 0;
+  border-radius: 8rpx;
+  background: #fdfaf3;
 }
 
 .result-area {
@@ -286,6 +294,7 @@ function judge(): void {
   height: 96rpx;
   margin: 4rpx;
   border-radius: 8rpx;
+  background: #fdfaf3;
   box-sizing: border-box;
   position: relative;
 }
@@ -295,7 +304,6 @@ function judge(): void {
 }
 
 .pick-tile.selected {
-  background: #fff6dc;
   box-shadow: 0 0 0 3rpx #ffd76e;
 }
 
