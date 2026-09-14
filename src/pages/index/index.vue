@@ -334,9 +334,10 @@ function judge(): void {
   position: absolute;
   right: 2rpx;
   bottom: 0;
-  color: #8a7a5c;
-  font-size: 18rpx;
-  line-height: 24rpx;
+  color: #9a4d10;
+  font-size: 20rpx;
+  font-weight: bold;
+  line-height: 26rpx;
 }
 
 .actions {
