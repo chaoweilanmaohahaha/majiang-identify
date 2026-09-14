@@ -60,6 +60,9 @@
             <text v-if="counts[group.start + i - 1] > 0" class="pick-badge">
               x{{ counts[group.start + i - 1] }}
             </text>
+            <text class="pick-remain">
+              余{{ 4 - counts[group.start + i - 1] }}
+            </text>
           </view>
         </view>
       </view>
@@ -325,6 +328,16 @@ function judge(): void {
   font-size: 20rpx;
   line-height: 32rpx;
   text-align: center;
+}
+
+.pick-remain {
+  position: absolute;
+  right: 2rpx;
+  bottom: 0;
+  color: #9a4d10;
+  font-size: 20rpx;
+  font-weight: bold;
+  line-height: 26rpx;
 }
 
 .actions {
