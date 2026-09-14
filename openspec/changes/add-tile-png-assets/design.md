@@ -19,10 +19,12 @@
 - 理由：语义化命名便于人工核对；编码映射集中在 `tileImage` 一处。
 
 ### 2. 素材来源与处理脚本（`scripts/fetch-tiles.ps1`）
-- 素材来源：samoheen/mahjong-tiles 的港式麻将套装（Public Domain，可合法内置），源图为 1200×1680 高清 PNG（含全部 42 种牌：数牌、风牌、三元牌、8 种花牌）。
-- 脚本流程：`curl` 下载 42 张源图（GitHub raw 域名需走代理，`-Proxy` 参数可配置）→ GDI+ HighQualityBicubic 缩放至 200×280（与源图比例一致，无变形）→ 按项目命名存入 `src/static/mahjong/`。
-- 命名映射集中在脚本 `$map`：源文件编号（如 `03-red-dragon.png`）→ 项目命名（`zhong.png`）；wan/tiao/tong 1-9 按编号规则生成映射。
-- 理由：GDI+ 手绘难以达到真实麻将牌质感；公共领域素材合法且高清，脚本保证可重复获取与规范化，后续想换风格仅需替换源 URL。
+- 数牌/风牌/三元牌（34 张）：samoheen/mahjong-tiles 港式套装（Public Domain），源图为 1200×1680 高清 PNG。
+- 花牌（8 张：春夏秋冬梅兰竹菊）：Cangjie6 的 SVG Oblique 麻将牌插图（Wikimedia Commons，CC BY-SA 4.0），经 Commons 缩略图服务渲染为 PNG，更具立体真实感。
+- 脚本流程：`curl`（带重试，`-Proxy` 参数可配置）下载 42 张源图 → GDI+ HighQualityBicubic 缩放/居中到统一 200×280 画布 → 按项目命名存入 `src/static/mahjong/`。
+- 命名映射集中在脚本 `$map`/`$flowerMap`；花牌映射：chun/xia/qiu/dong ← MJh1~4，mei/lan/zhu/ju ← MJh5/MJh6/MJh8/MJh7。
+- 版权说明：`src/static/mahjong/ATTRIBUTION.md` 记录两组来源与许可；花牌（CC BY-SA 4.0）使用时需保留 Cangjie6 署名。
+- 理由：GDI+ 手绘难以达到真实麻将牌质感；公共领域/CC BY-SA 素材合法且高清，脚本保证可重复获取与规范化。
 
 ### 3. 编码映射（`src/core/mahjong/tile.ts` 新增 `tileImage`）
 - 0-8 → wan_1..9；9-17 → tiao_1..9；18-26 → tong_1..9；27-30 → feng_dong/nan/xi/bei；31-33 → zhong/fa/bai；34-41 → chun/xia/qiu/dong/mei/lan/zhu/ju。

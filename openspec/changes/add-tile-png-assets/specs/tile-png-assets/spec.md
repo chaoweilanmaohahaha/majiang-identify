@@ -5,7 +5,7 @@
 ## ADDED Requirements
 
 ### Requirement: PNG 素材文件
-项目 SHALL 在 `src/static/mahjong/` 目录存放 42 张麻将牌 PNG：31 种可组合牌（万 1-9、条 1-9、筒 1-9、东南西北）与 11 种花牌（红中、发财、白板、春夏秋冬梅兰竹菊）。图片 SHALL 为统一尺寸（200×280）的竖版牌面，风格贴近真实麻将牌（真实港式牌面矢量风格），素材来源为公共领域素材集（samoheen/mahjong-tiles 港式套装），可合法内置到项目。
+项目 SHALL 在 `src/static/mahjong/` 目录存放 42 张麻将牌 PNG：31 种可组合牌（万 1-9、条 1-9、筒 1-9、东南西北）与 11 种花牌（红中、发财、白板、春夏秋冬梅兰竹菊）。图片 SHALL 为统一尺寸（200×280）的竖版牌面，风格贴近真实麻将牌；素材来源与许可 SHALL 记录在 `src/static/mahjong/ATTRIBUTION.md`（数牌/风牌/三元牌为公共领域港式套装，8 张花牌为 Cangjie6 插画，CC BY-SA 4.0，使用需保留署名）。
 
 #### Scenario: 素材完整
 - **WHEN** 检查素材目录
@@ -14,6 +14,10 @@
 #### Scenario: 命名规范
 - **WHEN** 查看文件名
 - **THEN** 命名符合 `<牌种>_<标识>.png`（如 wan_1、tiao_9、tong_5、feng_dong、zhong、fa、bai、chun、mei 等），与编码映射一一对应
+
+#### Scenario: 版权说明
+- **WHEN** 查看素材目录
+- **THEN** 存在 ATTRIBUTION.md 记录素材来源、作者与许可要求
 
 ### Requirement: 编码到图片的映射
 核心模块 SHALL 提供 `tileImage(tile)`：牌编码 0-41 映射到对应 PNG 的静态资源路径 `/static/mahjong/<name>.png`；编码在 0-41 之外 SHALL 抛错。
