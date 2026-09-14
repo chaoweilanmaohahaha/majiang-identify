@@ -11,22 +11,15 @@
           v-for="slot in 13"
           :key="slot"
           class="slot"
+          :class="{ empty: slotTiles[slot - 1] === null }"
           @tap="removeBySlot(slot - 1)"
         >
-          <view
+          <image
             v-if="slotTiles[slot - 1] !== null"
-            class="tile big"
-            :class="tileColorClass(slotTiles[slot - 1] as number)"
-          >
-            <template v-if="isWindTile(slotTiles[slot - 1] as number)">
-              <text class="tile-center wind">{{ tileText(slotTiles[slot - 1] as number) }}</text>
-            </template>
-            <template v-else>
-              <text class="tile-corner tl">{{ tileRank(slotTiles[slot - 1] as number) }}</text>
-              <text class="tile-center">{{ tileSuitChar(slotTiles[slot - 1] as number) }}</text>
-              <text class="tile-corner br">{{ tileRank(slotTiles[slot - 1] as number) }}</text>
-            </template>
-          </view>
+            class="tile-img"
+            mode="aspectFit"
+            :src="tileImage(slotTiles[slot - 1] as number)"
+          />
         </view>
       </view>
 
@@ -37,20 +30,8 @@
           </text>
           <text v-else class="result-noting">未听牌</text>
           <view v-if="result.kind === 'tingpai'" class="result-tiles">
-            <view
-              v-for="t in listeningTiles"
-              :key="t"
-              class="tile mid"
-              :class="tileColorClass(t)"
-            >
-              <template v-if="isWindTile(t)">
-                <text class="tile-center wind">{{ tileText(t) }}</text>
-              </template>
-              <template v-else>
-                <text class="tile-corner tl">{{ tileRank(t) }}</text>
-                <text class="tile-center">{{ tileSuitChar(t) }}</text>
-                <text class="tile-corner br">{{ tileRank(t) }}</text>
-              </template>
+            <view v-for="t in listeningTiles" :key="t" class="result-tile">
+              <image class="tile-img" mode="aspectFit" :src="tileImage(t)" />
             </view>
           </view>
         </view>
@@ -71,9 +52,11 @@
             }"
             @tap="toggle(group.start + i - 1)"
           >
-            <text class="pick-text" :class="tileColorClass(group.start + i - 1)">
-              {{ group.start + i - 1 <= 26 ? tileRank(group.start + i - 1) : tileText(group.start + i - 1) }}
-            </text>
+            <image
+              class="pick-img"
+              mode="aspectFit"
+              :src="tileImage(group.start + i - 1)"
+            />
             <text v-if="counts[group.start + i - 1] > 0" class="pick-badge">
               x{{ counts[group.start + i - 1] }}
             </text>
@@ -93,7 +76,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { getListeningTiles } from "@/core/mahjong";
+import { getListeningTiles, tileImage } from "@/core/mahjong";
 
 interface TileGroup {
   label: string;
@@ -130,31 +113,6 @@ const slotTiles = computed(() => {
   }
   return arr;
 });
-
-function tileRank(tile: number): string {
-  return String((tile % 9) + 1);
-}
-
-function tileSuitChar(tile: number): string {
-  if (tile < 9) return "万";
-  if (tile < 18) return "条";
-  return "筒";
-}
-
-function tileText(tile: number): string {
-  return "东南西北"[tile - 27];
-}
-
-function isWindTile(tile: number): boolean {
-  return tile >= 27;
-}
-
-function tileColorClass(tile: number): string {
-  if (tile < 9) return "suit-wan";
-  if (tile < 18) return "suit-tiao";
-  if (tile < 27) return "suit-tong";
-  return "suit-feng";
-}
 
 function canToggle(tile: number): boolean {
   return counts.value[tile] < 4 && total.value < 13;
@@ -256,85 +214,27 @@ function judge(): void {
   width: 96rpx;
   height: 128rpx;
   margin: 6rpx;
-  border-radius: 8rpx;
-  border: 2rpx dashed rgba(255, 255, 255, 0.25);
+  border-radius: 10rpx;
   box-sizing: border-box;
+  background: #fdfaf3;
 }
 
-.tile {
+.slot.empty {
+  border: 2rpx dashed rgba(255, 255, 255, 0.25);
+  background: transparent;
+}
+
+.tile-img {
   width: 100%;
   height: 100%;
-  background: #fdfaf3;
-  border-radius: 8rpx;
-  border: 2rpx solid #b9ab8f;
-  box-shadow: 0 4rpx 6rpx rgba(0, 0, 0, 0.35);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
 }
 
-.tile.mid {
+.result-tile {
   width: 76rpx;
   height: 104rpx;
   margin: 8rpx 6rpx 0 0;
-}
-
-.tile-corner {
-  position: absolute;
-  font-size: 22rpx;
-  font-weight: bold;
-}
-
-.tile.mid .tile-corner {
-  font-size: 18rpx;
-}
-
-.tile-corner.tl {
-  top: 6rpx;
-  left: 8rpx;
-}
-
-.tile-corner.br {
-  bottom: 6rpx;
-  right: 8rpx;
-}
-
-.tile-center {
-  font-size: 44rpx;
-  font-weight: bold;
-}
-
-.tile.mid .tile-center {
-  font-size: 34rpx;
-}
-
-.tile-center.wind {
-  font-size: 36rpx;
-}
-
-.tile.mid .tile-center.wind {
-  font-size: 30rpx;
-}
-
-.suit-wan .tile-center,
-.suit-wan .tile-corner {
-  color: #c0392b;
-}
-
-.suit-tiao .tile-center,
-.suit-tiao .tile-corner {
-  color: #1e8449;
-}
-
-.suit-tong .tile-center,
-.suit-tong .tile-corner {
-  color: #2471a3;
-}
-
-.suit-feng .tile-center {
-  color: #2c3e50;
+  border-radius: 8rpx;
+  background: #fdfaf3;
 }
 
 .result-area {
@@ -393,13 +293,9 @@ function judge(): void {
   width: 76rpx;
   height: 96rpx;
   margin: 4rpx;
-  background: #fdfaf3;
   border-radius: 8rpx;
-  border: 2rpx solid #b9ab8f;
+  background: #fdfaf3;
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
 }
 
@@ -408,13 +304,12 @@ function judge(): void {
 }
 
 .pick-tile.selected {
-  border-color: #ffd76e;
-  background: #fff6dc;
+  box-shadow: 0 0 0 3rpx #ffd76e;
 }
 
-.pick-text {
-  font-size: 30rpx;
-  font-weight: bold;
+.pick-img {
+  width: 100%;
+  height: 100%;
 }
 
 .pick-badge {

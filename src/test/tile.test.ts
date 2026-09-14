@@ -7,6 +7,7 @@ import {
   rankOf,
   suitOf,
   TILE_KIND_COUNT,
+  tileImage,
   tileName,
 } from "@/core/mahjong/tile";
 
@@ -79,5 +80,37 @@ describe("牌编码", () => {
 
   it("花牌区间从 31 开始", () => {
     expect(FLOWER_KIND_START).toBe(31);
+  });
+
+  it("tileImage 对 0-41 全部映射到唯一合法路径", () => {
+    const paths = new Set<string>();
+    for (let tile = 0; tile < TILE_KIND_COUNT; tile++) {
+      const path = tileImage(tile);
+      expect(path).toMatch(/^\/static\/mahjong\/[a-z0-9_]+\.png$/);
+      expect(paths.has(path)).toBe(false);
+      paths.add(path);
+    }
+    expect(paths.size).toBe(42);
+  });
+
+  it("tileImage 越界抛错", () => {
+    expect(() => tileImage(42)).toThrow(RangeError);
+    expect(() => tileImage(-1)).toThrow(RangeError);
+  });
+
+  it("tileImage 典型映射正确", () => {
+    expect(tileImage(0)).toBe("/static/mahjong/wan_1.png");
+    expect(tileImage(8)).toBe("/static/mahjong/wan_9.png");
+    expect(tileImage(9)).toBe("/static/mahjong/tiao_1.png");
+    expect(tileImage(17)).toBe("/static/mahjong/tiao_9.png");
+    expect(tileImage(18)).toBe("/static/mahjong/tong_1.png");
+    expect(tileImage(26)).toBe("/static/mahjong/tong_9.png");
+    expect(tileImage(27)).toBe("/static/mahjong/feng_dong.png");
+    expect(tileImage(30)).toBe("/static/mahjong/feng_bei.png");
+    expect(tileImage(31)).toBe("/static/mahjong/zhong.png");
+    expect(tileImage(32)).toBe("/static/mahjong/fa.png");
+    expect(tileImage(33)).toBe("/static/mahjong/bai.png");
+    expect(tileImage(34)).toBe("/static/mahjong/chun.png");
+    expect(tileImage(41)).toBe("/static/mahjong/ju.png");
   });
 });
